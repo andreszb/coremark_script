@@ -16,12 +16,12 @@ QARMA_LIB=/home/andres/Dev/QARMA64/build/lib/
 SYS_ROOT=/usr/aarch64-linux-gnu
 export CC=$LLVM_PROJECT_BIN_PATH/clang
 export CXX=$LLVM_PROJECT_BIN_PATH/clang++
-make -C coremark compile XCFLAGS="-B$AARCH_LIB -L$AARCH_LIB -static --target=aarch64-linux-gnu --sysroot=$SYS_ROOT -fuse-ld=lld -lstdc++"
+make -C coremark compile XCFLAGS="-B$AARCH_LIB -L$AARCH_LIB -static --target=aarch64-linux-gnu --sysroot=$SYS_ROOT -fuse-ld=lld -lstdc++" ITERATIONS=1000
 if [ -f "coremark/coremark.exe" ]; then
     mv coremark/coremark.exe ./coremark_nochange
 fi
 make -C coremark clean
-make -C coremark compile XCFLAGS="-B$AARCH_LIB -L$AARCH_LIB -static --target=aarch64-linux-gnu --sysroot=$SYS_ROOT -L$QARMA_LIB -lQarma64 -fuse-ld=lld -mllvm -pa-emu -lstdc++"
+make -C coremark compile XCFLAGS="-B$AARCH_LIB -L$AARCH_LIB -static --target=aarch64-linux-gnu --sysroot=$SYS_ROOT -L$QARMA_LIB -lQarma64 -fuse-ld=lld -mllvm -pa-emu -lstdc++" ITERATIONS=1000
 if [ -f "coremark/coremark.exe" ]; then
     cp coremark/coremark.exe ./coremark_wchange
 fi
