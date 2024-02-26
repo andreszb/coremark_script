@@ -19,12 +19,12 @@ else
 fi
 export CC=$LLVM_BIN/clang
 export CXX=$LLVM_BIN/clang++
-make -C coremark compile XCFLAGS="-static --target=aarch64-linux-gnu --sysroot=$SYSROOT_DIR -fuse-ld=lld -lstdc++" ITERATIONS=1000
+make -C coremark compile XCFLAGS="-static --target=aarch64-linux-gnu --sysroot=$SYSROOT_DIR -fuse-ld=lld -lstdc++"
 if [ -f "coremark/coremark.exe" ]; then
     mv coremark/coremark.exe ./coremark_nochange
 fi
 make -C coremark clean
-make -C coremark compile XCFLAGS="-static --target=aarch64-linux-gnu --sysroot=$SYSROOT_DIR -L$QARMA64_LIB -lQarma64 -fuse-ld=lld -mllvm -pa-emu -lstdc++" ITERATIONS=1000
+make -C coremark compile XCFLAGS="-static --target=aarch64-linux-gnu --sysroot=$SYSROOT_DIR -L$QARMA64_LIB -lQarma64 -fuse-ld=lld -mllvm -pa-emu -lstdc++"
 if [ -f "coremark/coremark.exe" ]; then
     cp coremark/coremark.exe ./coremark_wchange
 fi
