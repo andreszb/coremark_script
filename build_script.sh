@@ -1,3 +1,10 @@
+# QARMA library library path
+QARMA64_LIB=${QARMA64_LIB:-"/change/to/qarma64/lib/path"}
+# LLVM binaries path
+LLVM_BIN=${LLVM_BIN:-"/change/to/llvm/bin/path"}
+# AArch64-linux-gnu directory
+SYSROOT_DIR=${SYSROOT_DIR:-"/change/to/aarch64-linux-gnu/sysroot/directory"}
+
 # Clean previous runs
 git clean -fdx
 # Clone official 'coremark' repository or fetch latest changes/clean previous executions
@@ -10,18 +17,14 @@ else
     git clean -fdx
     cd ..
 fi
-LLVM_PROJECT_BIN_PATH=/home/andres/Dev/llvm-project/build/bin/
-AARCH_LIB=/usr/lib/gcc/aarch64-linux-gnu/13.2.0/
-QARMA_LIB=/home/andres/Dev/QARMA64/build/lib/
-SYS_ROOT=/usr/aarch64-linux-gnu
-export CC=$LLVM_PROJECT_BIN_PATH/clang
-export CXX=$LLVM_PROJECT_BIN_PATH/clang++
-make -C coremark compile XCFLAGS="-B$AARCH_LIB -L$AARCH_LIB -static --target=aarch64-linux-gnu --sysroot=$SYS_ROOT -fuse-ld=lld -lstdc++" ITERATIONS=1000
+export CC=$LLVM_BIN/clang
+export CXX=$LLVM_BIN/clang++
+make -C coremark compile XCFLAGS="-static --target=aarch64-linux-gnu --sysroot=$SYSROOT_DIR -fuse-ld=lld -lstdc++" ITERATIONS=1000
 if [ -f "coremark/coremark.exe" ]; then
     mv coremark/coremark.exe ./coremark_nochange
 fi
 make -C coremark clean
-make -C coremark compile XCFLAGS="-B$AARCH_LIB -L$AARCH_LIB -static --target=aarch64-linux-gnu --sysroot=$SYS_ROOT -L$QARMA_LIB -lQarma64 -fuse-ld=lld -mllvm -pa-emu -lstdc++" ITERATIONS=1000
+make -C coremark compile XCFLAGS="-static --target=aarch64-linux-gnu --sysroot=$SYSROOT_DIR -L$QARMA64_LIB -lQarma64 -fuse-ld=lld -mllvm -pa-emu -lstdc++" ITERATIONS=1000
 if [ -f "coremark/coremark.exe" ]; then
     cp coremark/coremark.exe ./coremark_wchange
 fi
